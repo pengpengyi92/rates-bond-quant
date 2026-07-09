@@ -38,20 +38,21 @@ This repo turns those ideas into a small, runnable Python demo.
 
 ```text
 ficc-rates-bond-quant-demo/
-├─ README.md
-├─ pyproject.toml
-├─ src/ficc_rates_bond_quant/
-│  ├─ __init__.py
-│  ├─ bond_math.py
-│  ├─ pnl.py
-│  ├─ scenarios.py
-│  └─ portfolio.py
-├─ tests/
-├─ demos/
-├─ notes/
-├─ assets/
-├─ docs/
-└─ outputs/
+|-- README.md
+|-- pyproject.toml
+|-- LICENSE
+|-- src/ficc_rates_bond_quant/
+|   |-- __init__.py
+|   |-- bond_math.py
+|   |-- pnl.py
+|   |-- scenarios.py
+|   `-- portfolio.py
+|-- tests/
+|-- demos/
+|-- notes/
+|-- assets/
+|-- docs/
+`-- outputs/
 ```
 
 ## Quick Start
@@ -177,6 +178,72 @@ See:
 - `docs/system_design.md`
 - `docs/public_private_boundary.md`
 
-## License / Copyright
+## Contributing
 
-© 2026 Pengyi Peng. All rights reserved unless otherwise specified.
+Contributions are welcome.
+
+You can contribute by:
+
+- opening Issues for bugs, questions, or suggested improvements
+- submitting Pull Requests for fixes, examples, documentation, or tests
+- improving educational explanations around fixed income, FICC, rates, duration,
+  convexity, and scenario analysis
+- adding public-safe examples that do not rely on proprietary market data,
+  employer materials, client information, or live trading instructions
+
+Pull Requests will be reviewed carefully and merged when they align with the
+educational and public-safe scope of this project.
+
+## Support
+
+If this project helps you learn quantitative fixed income, FICC, or
+interest-rate bond analytics, please consider giving the repository a Star.
+
+## Project Updates
+
+### 2026-07-10
+
+Completed:
+
+- initial repository structure
+- public-safe README
+- core Python package under `src/ficc_rates_bond_quant/`
+- bond pricing implementation
+- Macaulay duration and modified duration
+- convexity calculation
+- yield-shock scenario analysis
+- simple portfolio PnL estimation
+- unit tests
+- runnable demo script
+- demo notebook scaffold
+- educational notes
+- system design V1.0
+- contributing and support sections
+- MIT License
+
+## Coming Soon
+
+Planned additions:
+
+- yield curve visualization
+- DV01 / PVBP calculation
+- key rate duration
+- yield curve shift scenarios
+- multi-factor interest-rate analysis
+- backtesting examples
+- treasury futures hedging examples
+- performance optimization
+- more educational examples
+
+## Project Status
+
+- Status: Active Development
+- Version: V0.1
+- Last Update: 2026-07-10
+
+## License
+
+This project is released under the MIT License.
+
+Please retain the original copyright notice and license when redistributing or
+modifying the code. See the `LICENSE` file for details.
