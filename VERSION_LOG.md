@@ -3,11 +3,34 @@
 This project uses milestone versions. Small changes are tracked in Git commit
 history, while this file records visible project capability milestones.
 
-## V0.6 - Real Market Case Studies
+## V0.7 - Cloudflare Pages Deployment Ready
 
 Date: 2026-07-10
 
 Status: Current
+
+Completed:
+
+- configured Next.js static export for Cloudflare Pages
+- added `npm run build:cloudflare`
+- added Node 20 runtime marker through `frontend/.nvmrc`
+- added Cloudflare Pages deployment guide
+- added README deployment settings
+
+Deployment settings:
+
+```text
+Root directory: frontend
+Build command: npm run build:cloudflare
+Build output directory: out
+NODE_VERSION: 20
+```
+
+## V0.6 - Real Market Case Studies
+
+Date: 2026-07-10
+
+Status: Completed
 
 Completed:
 

@@ -15,6 +15,22 @@ Open:
 http://localhost:3000
 ```
 
+## Build For Cloudflare Pages
+
+```powershell
+npm install
+npm run build:cloudflare
+```
+
+Cloudflare Pages settings:
+
+```text
+Root directory: frontend
+Build command: npm run build:cloudflare
+Build output directory: out
+Environment variable: NODE_VERSION = 20
+```
+
 ## Scope
 
 The frontend provides a local interactive dashboard for:

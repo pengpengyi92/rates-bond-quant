@@ -108,6 +108,23 @@ npm install
 npm run dev
 ```
 
+Build the static frontend for Cloudflare Pages:
+
+```powershell
+cd frontend
+npm install
+npm run build:cloudflare
+```
+
+Cloudflare Pages settings:
+
+```text
+Root directory: frontend
+Build command: npm run build:cloudflare
+Build output directory: out
+NODE_VERSION: 20
+```
+
 ## 🌐 Interactive Web Demo
 
 The web demo turns the quant engine into a product-like educational dashboard.
@@ -124,6 +141,19 @@ The dashboard includes:
 - 📈 duration comparison chart
 - 📐 convexity comparison chart
 - 📚 educational explanations for duration, convexity, and rate sensitivity
+
+## ☁️ Cloudflare Pages Deployment
+
+The frontend is configured as a static Next.js export for Cloudflare Pages.
+
+Recommended deployment settings:
+
+- Root directory: `frontend`
+- Build command: `npm run build:cloudflare`
+- Build output directory: `out`
+- Node version: `20`
+
+See `docs/cloudflare_pages_deployment.md` for the full setup guide.
 
 ## 📊 Real Market Case Studies
 
@@ -245,6 +275,7 @@ See:
 - `docs/system_design.md`
 - `docs/public_private_boundary.md`
 - `docs/versioning_strategy.md`
+- `docs/cloudflare_pages_deployment.md`
 - `case_studies/2026_china_gov_bond_ytd.md`
 - `case_studies/2026_30y_rates_trade.md`
 - `case_studies/100bn_position_simulation.md`
@@ -276,6 +307,15 @@ interest-rate bond analytics, please consider giving the repository a Star.
 
 README updates record only major milestones. Smaller changes are tracked in Git
 commit history. See `VERSION_LOG.md` for the full milestone version log.
+
+### V0.7 - 2026-07-10
+
+Completed:
+
+- ☁️ Cloudflare Pages deployment configuration
+- 📦 static Next.js export setup
+- 🧭 deployment guide for first public web release
+- 🟢 Node 20 runtime marker for frontend builds
 
 ### V0.6 - 2026-07-10
 
@@ -336,11 +376,12 @@ Planned additions:
 - 📊 P&L by maturity visualization
 - 📈 historical yield curve chart
 - 🌐 dashboard integration for real-market cases
+- 🌍 custom domain for Cloudflare Pages
 
 ## 📌 Project Status
 
 - Status: Active Development
-- Version: V0.6
+- Version: V0.7
 - Last Update: 2026-07-10
 
 ## 📜 License

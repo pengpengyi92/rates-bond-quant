@@ -42,7 +42,11 @@ export default function HomePage() {
             P&L of a fixed-income rates bond position.
           </p>
           <div className="hero-actions">
-            <a href="https://github.com/pengpengyi92/ficc-rates-bond-quant" target="_blank">
+            <a
+              href="https://github.com/pengpengyi92/ficc-rates-bond-quant"
+              target="_blank"
+              rel="noreferrer"
+            >
               View GitHub
             </a>
             <a className="secondary" href="#dashboard">

@@ -3,6 +3,26 @@
 This log records meaningful project upgrades. Small changes remain in Git commit
 history.
 
+## 2026-07-10 - V0.7 Cloudflare Pages Deployment Ready
+
+### Added
+
+- Configured the Next.js frontend for static export.
+- Added Cloudflare Pages deployment guide.
+- Added frontend Node 20 runtime marker.
+- Added README deployment settings.
+
+### Key Insight
+
+The project is now prepared for a public web link through Cloudflare Pages.
+
+### Next
+
+- Connect the GitHub repository in Cloudflare Pages.
+- Deploy the `frontend` root directory.
+- Add the generated `*.pages.dev` link to README.
+- Optionally connect a custom domain later.
+
 ## 2026-07-10 - V0.6 Real Market Case Studies
 
 ### Added
