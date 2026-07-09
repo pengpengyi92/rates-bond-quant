@@ -1,0 +1,10 @@
+[project]
+name = "ficc-rates-bond-research-os"
+version = "0.0.1"
+description = "Public-safe FICC rates bond research workflow demo."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
