@@ -1,7 +1,7 @@
 [project]
-name = "ficc-rates-bond-research-os"
+name = "ficc-rates-bond-quant-demo"
 version = "0.0.1"
-description = "Public-safe FICC rates bond research workflow demo."
+description = "Educational FICC rates bond quant demo for pricing, duration, convexity, scenarios, and PnL."
 requires-python = ">=3.10"
 dependencies = []
 

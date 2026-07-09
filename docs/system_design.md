@@ -1,515 +1,323 @@
-# System Design: FICC Rates Bond Research OS
+# System Design: FICC Rates Bond Quant Demo
 
-## 1. Design Goal
+## 1. Goal
 
-The goal is to build a small but real research workflow for interest-rate bond
-analysis.
+Build an educational, public-safe Python project for fixed-income interest-rate
+bond analytics.
 
-The system should answer:
+The system should demonstrate:
 
 ```text
-Given a macro / rates event and a yield curve snapshot,
-what scenario are we in,
-what research hypothesis does it imply,
-what risk should a human reviewer check,
-and what report should be produced?
+cash flows
+-> bond price
+-> Macaulay duration
+-> modified duration
+-> convexity
+-> rate-shock scenario
+-> price-change approximation
+-> position PnL
+-> multi-maturity comparison
 ```
 
-This is not an auto-trading system. It is a research assistant and report
-generation workflow.
+This project is designed for GitHub portfolio display. It is not a trading
+system and does not contain private market views.
 
-## 2. Target Use Case
+## 2. Scope
 
-The first use case is interest-rate bond research.
-
-Examples:
-
-- government bonds
-- policy bank bonds
-- local government bonds
-- interest-rate swaps / repo rate context in later versions
-
-The MVP starts with generic rates-bond reasoning and synthetic data. It should
-not depend on proprietary datasets.
-
-## 3. High-Level Architecture
+Covered:
 
 ```text
-                 +----------------------+
-                 | synthetic event data |
-                 +----------+-----------+
-                            |
-                            v
-                 +----------------------+
-                 |   event classifier   |
-                 +----------+-----------+
-                            |
-                            v
-+----------------------+    +----------------------+    +----------------------+
-| yield curve snapshot | -> | curve state analyzer | -> | scenario classifier  |
-+----------------------+    +----------------------+    +----------+-----------+
-                                                               |
-                                                               v
-                                                    +----------------------+
-                                                    | hypothesis generator |
-                                                    +----------+-----------+
-                                                               |
-                                                               v
-                                                    +----------------------+
-                                                    | risk checklist       |
-                                                    +----------+-----------+
-                                                               |
-                                                               v
-                                                    +----------------------+
-                                                    | markdown report      |
-                                                    +----------------------+
-```
-
-## 4. Core Data Contracts
-
-### 4.1 RatesEvent
-
-Represents a macro / FICC event.
-
-Fields:
-
-```text
-date
-time
-source
-event_type
-text
-country_or_market
-confidence
-```
-
-Example event types:
-
-```text
-central_bank
-liquidity
-inflation
-growth
-fiscal_policy
-bond_supply
-risk_sentiment
-regulatory
-```
-
-### 4.2 YieldCurveSnapshot
-
-Represents the current yield curve.
-
-Fields:
-
-```text
-date
-tenor
-yield_bps
-change_1d_bps
-change_5d_bps
-change_20d_bps
-```
-
-MVP tenors:
-
-```text
-1Y
-3Y
-5Y
-7Y
-10Y
-30Y
-```
-
-### 4.3 CurveState
-
-Derived from `YieldCurveSnapshot`.
-
-Fields:
-
-```text
-level
-slope_10y_1y
-slope_10y_3y
-curvature_10y_5y_1y
-parallel_move_bps
-slope_move_bps
-curvature_move_bps
-```
-
-### 4.4 Scenario
-
-Classifies curve movement.
-
-Core scenarios:
-
-```text
-bull_steepener
-bull_flattener
-bear_steepener
-bear_flattener
-parallel_rally
-parallel_selloff
-range_bound
-mixed_signal
-```
-
-### 4.5 SignalHypothesis
-
-Not a trading command. A human-reviewable research hypothesis.
-
-Fields:
-
-```text
-directional_view
-curve_view
-duration_bias
-instrument_focus
-reasoning
-confidence
-required_checks
-```
-
-### 4.6 RiskChecklist
-
-Human reviewer checklist.
-
-Fields:
-
-```text
-duration_risk
-convexity_risk
-liquidity_risk
-policy_event_risk
-supply_event_risk
-data_quality_risk
-model_simplification_risk
-```
-
-## 5. Module Design
-
-Planned source package:
-
-```text
-src/ficc_rates_os/
-```
-
-### contracts.py
-
-Purpose:
-
-```text
-Define data classes and validation helpers.
-```
-
-Objects:
-
-```text
-RatesEvent
-YieldCurvePoint
-YieldCurveSnapshot
-CurveState
-RatesScenario
-SignalHypothesis
-RiskChecklist
-ResearchReport
-```
-
-### taxonomy.py
-
-Purpose:
-
-```text
-Map event text into FICC / rates taxonomy.
-```
-
-MVP implementation:
-
-```text
-keyword-based classifier
-```
-
-Later:
-
-```text
-LLM-assisted classifier with citation and human review
-```
-
-### curve.py
-
-Purpose:
-
-```text
-Build curve state from yield points.
-```
-
-Functions:
-
-```text
-parse_yield_curve_csv
-compute_curve_state
-compute_level_slope_curvature
-```
-
-### scenario.py
-
-Purpose:
-
-```text
-Classify curve movement into rates scenarios.
-```
-
-Examples:
-
-```text
-front-end rally + long-end stable -> bull steepener
-long-end selloff + front-end stable -> bear steepener
-all tenors lower -> parallel rally
-all tenors higher -> parallel selloff
-```
-
-### hypothesis.py
-
-Purpose:
-
-```text
-Generate human-reviewable research hypotheses.
-```
-
-Examples:
-
-```text
-duration bias: cautious long duration
-curve view: steepening risk
-instrument focus: 5Y-10Y government bond curve
-```
-
-Important:
-
-```text
-The output is a hypothesis, not investment advice.
-```
-
-### risk.py
-
-Purpose:
-
-```text
-Attach risk checklist to every hypothesis.
-```
-
-MVP risks:
-
-```text
-duration
+interest-rate bonds
+fixed coupon bonds
+yield-to-maturity discounting
+Macaulay duration
+modified duration
 convexity
-liquidity
-supply
-policy
-data quality
-model simplification
+rate-cut / rate-hike scenarios
+position PnL estimation
+multi-maturity comparison
 ```
 
-### report.py
+Not covered:
+
+```text
+credit bonds
+default risk
+derivatives
+swaps
+options
+high-frequency trading
+real portfolio optimization
+live trading
+```
+
+## 3. Architecture
+
+```text
+                     +--------------------+
+                     | bond terms          |
+                     | coupon / ytm / mat  |
+                     +----------+---------+
+                                |
+                                v
+                     +--------------------+
+                     | bond_math.py        |
+                     | price/duration/conv |
+                     +----------+---------+
+                                |
+                                v
++------------------+  +--------------------+  +----------------------+
+| scenarios.py     |->| pnl.py             |->| portfolio.py          |
+| rate cut / hike  |  | dP/P and position  |  | multi-maturity compare|
++------------------+  +--------------------+  +----------+-----------+
+                                                       |
+                                                       v
+                                             +----------------------+
+                                             | demos/run_demo.py    |
+                                             | markdown report      |
+                                             +----------------------+
+```
+
+## 4. Module Design
+
+### 4.1 bond_math.py
 
 Purpose:
 
 ```text
-Generate markdown report for human review.
+Implement deterministic bond math.
 ```
 
-Report sections:
+Core functions:
 
 ```text
-event summary
-curve snapshot
-curve state
-scenario classification
-signal hypothesis
-risk checklist
-human review questions
-public-safe disclaimer
+bond_cashflows
+bond_price
+macaulay_duration
+modified_duration
+convexity
 ```
 
-### pipeline.py
+Design choices:
+
+- face value defaults to 100
+- coupon rate is annual
+- yield-to-maturity is annual
+- coupon frequency defaults to semiannual
+- flat yield curve assumption for MVP
+
+### 4.2 scenarios.py
 
 Purpose:
 
 ```text
-Coordinate the end-to-end workflow.
+Represent parallel yield-shift scenarios.
 ```
 
-Pipeline:
+Core functions:
 
 ```text
-load event
-load curve
-classify event
-compute curve state
-classify scenario
-generate hypothesis
-build risk checklist
-write report
+rate_cut(bp)
+rate_hike(bp)
+parallel_shift(bp)
 ```
 
-### cli.py
+MVP scenarios:
+
+```text
+10bp rate cut
+10bp rate hike
+50bp rate cut
+50bp rate hike
+```
+
+### 4.3 pnl.py
 
 Purpose:
 
 ```text
-Expose the workflow as a command-line demo.
+Estimate price change and position PnL from duration and convexity.
 ```
 
-Example:
+Formula:
+
+```text
+dP / P ~= -D_mod * dy + 0.5 * Convexity * dy^2
+```
+
+Position PnL:
+
+```text
+units = notional_face_value / face_value
+pnl = units * price_change
+```
+
+### 4.4 portfolio.py
+
+Purpose:
+
+```text
+Compare rate sensitivity across maturities.
+```
+
+Core object:
+
+```text
+BondPosition
+```
+
+Core functions:
+
+```text
+analyze_position
+compare_maturities
+```
+
+Default comparison:
+
+```text
+1Y / 3Y / 5Y / 10Y / 30Y
+coupon = 2.5%
+ytm = 2.5%
+notional face value = 1,000,000,000
+```
+
+### 4.5 demos/run_demo.py
+
+Purpose:
+
+```text
+Run the full demo and generate a markdown report.
+```
+
+Output:
+
+```text
+outputs/sample_rates_bond_quant_report.md
+```
+
+## 5. Data Contract
+
+### 5.1 BondPosition
+
+```text
+name
+maturity_years
+coupon_rate
+yield_to_maturity
+notional_face_value
+face_value
+frequency
+```
+
+### 5.2 RateScenario
+
+```text
+name
+yield_change
+description
+bp
+```
+
+### 5.3 Position Analysis Row
+
+```text
+name
+scenario
+maturity_years
+price
+Macaulay duration
+modified duration
+convexity
+relative price change
+price change
+new price
+market value
+pnl
+pnl bps of market value
+```
+
+## 6. Public-Safe Design
+
+The demo uses synthetic assumptions:
+
+```text
+coupon rate = 2.5%
+yield-to-maturity = 2.5%
+maturities = 1Y, 3Y, 5Y, 10Y, 30Y
+notional = illustrative
+```
+
+No private data is required.
+
+## 7. Test Design
+
+Unit tests cover:
+
+- zero-coupon price formula
+- zero-coupon Macaulay duration
+- modified duration formula
+- convexity positivity
+- rate cut increases price
+- rate hike decreases price
+- longer maturity has higher duration
+
+Run:
 
 ```powershell
 $env:PYTHONPATH = "src"
-py -m ficc_rates_os.cli examples/sample_rates_events.csv examples/sample_yield_curve.csv --out outputs/sample_rates_report.md
+py -m unittest discover -s tests
 ```
 
-## 6. MVP Input / Output
+## 8. Demo Design
 
-### 6.1 Input: sample_rates_events.csv
+Run:
 
-```text
-date,time,source,text
-2026-07-09,09:00,synthetic,"Central bank signals stable liquidity and moderate growth pressure."
+```powershell
+$env:PYTHONPATH = "src"
+py demos/run_demo.py
 ```
 
-### 6.2 Input: sample_yield_curve.csv
+Expected result:
 
 ```text
-date,tenor,yield_bps,change_1d_bps,change_5d_bps,change_20d_bps
-2026-07-09,1Y,165,-2,-6,-10
-2026-07-09,3Y,180,-3,-8,-14
-2026-07-09,5Y,195,-4,-10,-18
-2026-07-09,10Y,215,-6,-14,-22
-2026-07-09,30Y,245,-5,-10,-15
-```
-
-### 6.3 Output: sample_rates_report.md
-
-```text
-# FICC Rates Research Report
-
-## Event
-...
-
-## Curve State
-...
-
-## Scenario
-parallel_rally / bull_flattener / ...
-
-## Hypothesis
-...
-
-## Risk Checklist
-...
-
-## Human Review
-...
-```
-
-## 7. System Design Principles
-
-### Principle 1: Public-Safe First
-
-No private source data, no internal bank logic, no client information.
-
-### Principle 2: Research Before Trading
-
-The system produces hypotheses and reports, not direct trading instructions.
-
-### Principle 3: Human Review Is Mandatory
-
-Every hypothesis must include:
-
-```text
-confidence
-risk checklist
-review questions
-boundary note
-```
-
-### Principle 4: Data Contracts Over Ad Hoc Strings
-
-Even in the MVP, event, curve, scenario, hypothesis, and report should have
-clear schemas.
-
-### Principle 5: Small Runnable Demo
-
-The first public version should be simple enough to run in one command.
-
-## 8. Relationship To Existing FICC Work
-
-Existing public repo:
-
-```text
-ficc-event-signal-workflow
-```
-
-Position:
-
-```text
-macro / FICC event -> signal hypothesis
-```
-
-This repo:
-
-```text
-rates event + yield curve state -> rates scenario -> bond research hypothesis
-```
-
-Difference:
-
-```text
-ficc-event-signal-workflow is general FICC event-to-signal.
-ficc-rates-bond-research-os is rates-bond specific and curve-aware.
+markdown table for 10bp / 50bp cut and hike scenarios
+output report written to outputs/sample_rates_bond_quant_report.md
 ```
 
 ## 9. Future Extensions
 
-### v1: Runnable MVP
+### v1.1: CSV Inputs
 
 ```text
-synthetic CSV input
-curve state
-scenario classifier
-hypothesis generator
-risk checklist
-markdown report
-unit tests
+examples/sample_bond_terms.csv
+examples/sample_rate_scenarios.csv
 ```
 
-### v2: Curve Analytics
+### v1.2: Yield Curve Shocks
 
 ```text
-DV01
-duration
-convexity
-carry
-roll-down
+parallel shift
+steepener
+flattener
+butterfly
 ```
 
-### v3: RAG / Report Assistant
+### v1.3: Portfolio Layer
 
 ```text
-public policy text
-public macro notes
-RAG citation
-research memo generation
+multiple positions
+weighted duration
+portfolio DV01
+scenario PnL table
 ```
 
-### v4: AI Harness
+### v1.4: Research Report Layer
 
 ```text
-task contract
-tool policy
-data policy
-review checkpoint
-audit log
+markdown memo
+human-review checklist
+public-safe disclaimer
 ```
 
 ## 10. Interview Narrative
@@ -517,15 +325,16 @@ audit log
 Chinese:
 
 ```text
-我设计了一个 public-safe 的利率债研究 OS。它不是实盘交易系统，而是把宏观/利率事件、收益率曲线状态、情景分类、研究假设和风险检查串成一个可复核的研究工作流。核心训练的是 FICC rates 里的 curve thinking、duration risk、scenario reasoning 和 human-in-the-loop research engineering。
+我做了一个 public-safe 的 FICC rates bond quant demo，用 Python 实现固定利率债的现金流、定价、Macaulay duration、modified duration、convexity，以及降息/加息情景下的价格变化和组合 PnL 估算。这个项目不是交易系统，而是展示我对利率债定价、久期凸性和利率敏感性的基础理解，以及把金融概念工程化成可运行代码、测试和报告的能力。
 ```
 
 English:
 
 ```text
-I designed a public-safe FICC rates bond research OS. It is not a live trading
-system. It connects macro/rates events, yield curve states, scenario
-classification, research hypotheses, and risk checklists into a reviewable
-research workflow. The core value is combining rates curve thinking, duration
-risk, scenario reasoning, and human-in-the-loop research engineering.
+I built a public-safe FICC rates bond quant demo in Python. It implements fixed
+coupon bond cash flows, pricing, Macaulay duration, modified duration,
+convexity, rate-cut and rate-hike scenarios, price-change approximation, and
+portfolio PnL estimation. It is not a trading system; it demonstrates my
+understanding of rates-bond mechanics and my ability to convert finance concepts
+into runnable code, tests, and reports.
 ```

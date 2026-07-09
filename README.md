@@ -1,125 +1,162 @@
-# FICC Rates Bond Research OS
+# FICC Rates Bond Quant Demo
 
-FICC Rates Bond Research OS is a public-safe research engineering demo for
-interest-rate bond analysis, yield-curve scenario reasoning, and human-reviewed
-FICC research workflows.
+FICC Rates Bond Quant Demo is an educational Python project for fixed-income
+interest-rate bond analytics.
 
-The first version focuses on system design:
+It focuses on the core mechanics of rates-bond quant work:
 
 ```text
-macro / rates event
--> rates taxonomy
--> yield curve state
--> scenario classification
--> signal hypothesis
--> risk checklist
--> reviewable research report
+bond cash flows
+-> bond pricing
+-> Macaulay duration
+-> modified duration
+-> convexity
+-> rate-cut / rate-hike scenario
+-> PnL estimation
+-> multi-maturity comparison
 ```
+
+This is a public-safe GitHub project. It uses simplified examples and synthetic
+inputs to demonstrate the mechanics, not proprietary trading views.
 
 ## Why This Project Exists
 
-Interest-rate bond research is not just about predicting one yield number. A
-useful research workflow should connect:
+Interest-rate bonds are one of the most important areas in FICC. Before talking
+about strategy, portfolio construction, or AI research agents, we need a clean
+understanding of:
 
-- macro events
-- central bank and liquidity conditions
-- bond supply and demand
-- yield curve level / slope / curvature
-- duration and convexity exposure
-- carry / roll-down intuition
-- risk and human review
+- how coupon bond prices are computed
+- why bond prices move opposite to yields
+- why duration approximates first-order rate sensitivity
+- why convexity matters for larger rate moves
+- why long-maturity bonds are more sensitive to rate changes
+- how portfolio PnL responds to rate-cut and rate-hike scenarios
 
-This project turns that reasoning process into a small, inspectable, public-safe
-engineering system.
+This repo turns those ideas into a small, runnable Python demo.
+
+## Repository Structure
+
+```text
+ficc-rates-bond-quant-demo/
+├─ README.md
+├─ pyproject.toml
+├─ src/ficc_rates_bond_quant/
+│  ├─ __init__.py
+│  ├─ bond_math.py
+│  ├─ pnl.py
+│  ├─ scenarios.py
+│  └─ portfolio.py
+├─ tests/
+├─ demos/
+├─ notes/
+├─ assets/
+├─ docs/
+└─ outputs/
+```
+
+## Quick Start
+
+Run the demo:
+
+```powershell
+$env:PYTHONPATH = "src"
+py demos/run_demo.py
+```
+
+Run tests:
+
+```powershell
+$env:PYTHONPATH = "src"
+py -m unittest discover -s tests
+```
+
+## What The Demo Shows
+
+The demo compares 1Y, 3Y, 5Y, 10Y, and 30Y coupon bonds under:
+
+```text
+10bp rate cut
+10bp rate hike
+50bp rate cut
+50bp rate hike
+```
+
+It estimates:
+
+```text
+price
+Macaulay duration
+modified duration
+convexity
+estimated price change
+estimated portfolio PnL
+```
+
+## Example Interpretation
+
+A long-duration bond has higher interest-rate sensitivity.
+
+For the same rate cut:
+
+```text
+30Y bond price impact > 10Y bond price impact > 1Y bond price impact
+```
+
+A rate cut usually increases bond prices, while a rate hike usually decreases
+bond prices.
+
+Convexity improves the approximation when the yield move becomes larger.
+
+## Educational Scope
+
+This project covers:
+
+```text
+interest-rate bonds
+cash-flow discounting
+bond pricing
+Macaulay duration
+modified duration
+convexity
+yield-change scenario analysis
+portfolio PnL estimation
+multi-maturity comparison
+```
+
+It does not cover:
+
+```text
+credit bonds
+default risk
+derivatives
+swaps
+options
+high-frequency trading
+live trading
+real portfolio optimization
+```
 
 ## Public-Safe Boundary
 
-This repository is designed for public portfolio use.
-
-It will not contain:
+This repo does not include:
 
 - proprietary bank materials
 - internal research documents
 - client information
-- private transaction records
-- real position data
-- confidential market views
+- real trading positions
+- private market views
 - live trading instructions
 
-The MVP will use synthetic examples and simplified public-domain-style data
-schemas.
-
-## Current Status
-
-```text
-v0: system design and repository architecture
-```
-
-See:
-
-- `docs/system_design.md`
-- `docs/public_private_boundary.md`
-- `docs/mvp_plan.md`
-
-## Planned Repository Structure
-
-```text
-ficc-rates-bond-research-os/
-├─ README.md
-├─ pyproject.toml
-├─ examples/
-│  ├─ sample_rates_events.csv
-│  └─ sample_yield_curve.csv
-├─ src/ficc_rates_os/
-│  ├─ __init__.py
-│  ├─ contracts.py
-│  ├─ taxonomy.py
-│  ├─ curve.py
-│  ├─ scenario.py
-│  ├─ hypothesis.py
-│  ├─ risk.py
-│  ├─ report.py
-│  ├─ pipeline.py
-│  └─ cli.py
-├─ tests/
-│  ├─ test_curve.py
-│  ├─ test_scenario.py
-│  └─ test_pipeline.py
-└─ docs/
-   ├─ system_design.md
-   ├─ public_private_boundary.md
-   └─ mvp_plan.md
-```
-
-## MVP Target
-
-The first runnable version should produce:
-
-```text
-synthetic macro event
-+ mock yield curve snapshot
-+ scenario classification
-+ rates signal hypothesis
-+ risk checklist
-+ markdown report
-```
-
-Example output:
-
-```text
-outputs/sample_rates_research_report.md
-```
-
-## Project Positioning
+## Positioning
 
 This is a research-engineering project, not a trading system.
 
 Defensible claim:
 
 ```text
-I designed and implemented a public-safe FICC rates research workflow that maps
-macro/rates events and yield-curve states into scenario classifications,
-candidate hypotheses, risk checks, and human-reviewable reports.
+I built an educational FICC rates bond quant demo that implements bond pricing,
+duration, convexity, rate-shock scenarios, PnL estimation, and multi-maturity
+comparison in Python.
 ```
 
 Do not claim:
@@ -130,6 +167,15 @@ live bond portfolio optimizer
 bank internal research engine
 validated real-money strategy
 ```
+
+## Notes
+
+See:
+
+- `notes/ficc_rates_intro.md`
+- `notes/duration_convexity.md`
+- `docs/system_design.md`
+- `docs/public_private_boundary.md`
 
 ## License / Copyright
 
