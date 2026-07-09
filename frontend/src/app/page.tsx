@@ -35,14 +35,14 @@ export default function HomePage() {
     <main>
       <section className="hero">
         <div className="hero-copy">
-          <p className="pill">FICC • Rates • Bond Quant Demo</p>
+          <p className="pill">FICC • Rates • Bond Quant</p>
           <h1>Interactive interest-rate bond P&L dashboard</h1>
           <p>
             Explore how duration, convexity, yield changes, and maturity shape the estimated
             P&L of a fixed-income rates bond position.
           </p>
           <div className="hero-actions">
-            <a href="https://github.com/pengpengyi92/ficc-rates-bond-quant-demo" target="_blank">
+            <a href="https://github.com/pengpengyi92/ficc-rates-bond-quant" target="_blank">
               View GitHub
             </a>
             <a className="secondary" href="#dashboard">

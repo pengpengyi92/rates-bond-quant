@@ -1,10 +1,10 @@
-# 🚀 FICC Rates Bond Quant Demo
+# 🚀 FICC Rates Bond Quant
 
 <p align="center">
-  <img src="assets/ficc-rates-bond-quant-icon.png" alt="FICC Rates Bond Quant Demo project icon" width="360">
+  <img src="assets/ficc-rates-bond-quant-icon.png" alt="FICC Rates Bond Quant project icon" width="360">
 </p>
 
-FICC Rates Bond Quant Demo is an educational Python project for fixed-income
+FICC Rates Bond Quant is an educational Python project for fixed-income
 interest-rate bond analytics. It now includes a Python quant engine, a FastAPI
 backend API, and a TypeScript / Next.js frontend dashboard.
 
@@ -42,7 +42,7 @@ This repo turns those ideas into a small, runnable Python demo.
 ## 📂 Repository Structure
 
 ```text
-ficc-rates-bond-quant-demo/
+ficc-rates-bond-quant/
 |-- README.md
 |-- pyproject.toml
 |-- LICENSE
@@ -119,7 +119,7 @@ The dashboard includes:
 - 📐 convexity comparison chart
 - 📚 educational explanations for duration, convexity, and rate sensitivity
 
-## ✨ What The Demo Shows
+## ✨ What The Project Shows
 
 The demo compares 1Y, 3Y, 5Y, 10Y, and 30Y coupon bonds under:
 
@@ -201,9 +201,9 @@ This is a research-engineering project, not a trading system.
 Defensible claim:
 
 ```text
-I built an educational FICC rates bond quant demo that implements bond pricing,
-duration, convexity, rate-shock scenarios, PnL estimation, and multi-maturity
-comparison in Python.
+I built an educational FICC rates bond quant project that implements bond
+pricing, duration, convexity, rate-shock scenarios, PnL estimation, and
+multi-maturity comparison in Python.
 ```
 
 Do not claim:
@@ -223,6 +223,8 @@ See:
 - `notes/duration_convexity.md`
 - `docs/system_design.md`
 - `docs/public_private_boundary.md`
+- `docs/versioning_strategy.md`
+- `VERSION_LOG.md`
 
 ## 🤝 Contributing
 
@@ -247,7 +249,10 @@ interest-rate bond analytics, please consider giving the repository a Star.
 
 ## 🚀 Project Updates
 
-### 2026-07-10
+README updates record only major milestones. Smaller changes are tracked in Git
+commit history. See `VERSION_LOG.md` for the full milestone version log.
+
+### V0.5 - 2026-07-10
 
 Completed:
 
@@ -271,6 +276,13 @@ Completed:
 - 🤝 contributing and support sections
 - 📜 MIT License
 
+## 📦 Versioning Strategy
+
+- Use milestone versions only.
+- Keep small changes in Git commit history.
+- Update README once per meaningful development day.
+- Bump the version when a visible project capability is completed.
+
 ## 🗺️ Coming Soon
 
 Planned additions:
@@ -289,7 +301,7 @@ Planned additions:
 ## 📌 Project Status
 
 - Status: Active Development
-- Version: V0.1
+- Version: V0.5
 - Last Update: 2026-07-10
 
 ## 📜 License

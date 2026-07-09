@@ -1,4 +1,4 @@
-# MVP Plan: FICC Rates Bond Quant Demo
+# MVP Plan: FICC Rates Bond Quant
 
 ## MVP Definition
 

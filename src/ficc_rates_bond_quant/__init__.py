@@ -1,4 +1,4 @@
-"""Educational FICC rates bond quant demo."""
+"""Educational FICC rates bond quant project."""
 
 from .bond_math import (
     bond_cashflows,
@@ -27,4 +27,4 @@ __all__ = [
     "rate_hike",
 ]
 
-__version__ = "0.0.1"
+__version__ = "0.5.0"

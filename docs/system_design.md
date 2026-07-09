@@ -1,4 +1,4 @@
-# System Design: FICC Rates Bond Quant Demo
+# System Design: FICC Rates Bond Quant
 
 ## 1. Goal
 
@@ -325,13 +325,13 @@ public-safe disclaimer
 Chinese:
 
 ```text
-我做了一个 public-safe 的 FICC rates bond quant demo，用 Python 实现固定利率债的现金流、定价、Macaulay duration、modified duration、convexity，以及降息/加息情景下的价格变化和组合 PnL 估算。这个项目不是交易系统，而是展示我对利率债定价、久期凸性和利率敏感性的基础理解，以及把金融概念工程化成可运行代码、测试和报告的能力。
+我做了一个 public-safe 的 FICC rates bond quant project，用 Python 实现固定利率债的现金流、定价、Macaulay duration、modified duration、convexity，以及降息/加息情景下的价格变化和组合 PnL 估算。这个项目不是交易系统，而是展示我对利率债定价、久期凸性和利率敏感性的基础理解，以及把金融概念工程化成可运行代码、测试和报告的能力。
 ```
 
 English:
 
 ```text
-I built a public-safe FICC rates bond quant demo in Python. It implements fixed
+I built a public-safe FICC rates bond quant project in Python. It implements fixed
 coupon bond cash flows, pricing, Macaulay duration, modified duration,
 convexity, rate-cut and rate-hike scenarios, price-change approximation, and
 portfolio PnL estimation. It is not a trading system; it demonstrates my
